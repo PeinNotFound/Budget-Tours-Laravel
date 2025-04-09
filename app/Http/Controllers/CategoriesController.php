@@ -6,7 +6,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\Categories\CreateCategoryRequest;
 use App\Http\Requests\Categories\UpdateCategoriesRequest;
-
+use Illuminate\Support\Facades\Storage;
 
 class CategoriesController extends Controller
 {
@@ -36,13 +36,19 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCategoryRequest $request)
+    public function store(Request $request)
     {
-      
-        Category::create([
-            'name' =>$request ->name
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('categories', 'public');
+        }
+
+        Category::create($validatedData);
 
         session()->flash('success', 'Category created successfully.');
 
@@ -78,14 +84,38 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoriesRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        $category->update([
-        'name'=>$request->name
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_image' => 'nullable|boolean'
         ]);
 
-        session()->flash('success', 'Category updated successfully.');
+        // Handle image deletion if requested
+        if ($request->has('delete_image') && $request->delete_image) {
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+                $category->image = null;
+            }
+        }
+        // Handle new image upload if provided
+        else if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+            $data['image'] = $request->file('image')->store('categories', 'public');
+        } else {
+            // Keep existing image
+            unset($data['image']);
+        }
 
+        unset($data['delete_image']); // Remove from data array before update
+        $category->update($data);
+
+        session()->flash('success', 'Category updated successfully.');
         return redirect(route('categories.index'));
     }
 
@@ -95,18 +125,20 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(category $category)
+    public function destroy(Category $category)
     {
-        if($category->destinations->count()>0){
-            session()->flash('error', 'Category cannot be deleted as it is linked to a destination');
-
+        if ($category->destinations()->count() > 0) {
+            session()->flash('error', 'Category cannot be deleted because it has some destinations.');
             return redirect()->back();
-
-
         }
+
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
+
         $category->delete();
 
-        session()->flash('success', 'Category Deleted Successfully.');
+        session()->flash('success', 'Category deleted successfully.');
 
         return redirect(route('categories.index'));
     }

@@ -1,199 +1,231 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.front')
 
-<head>
-  <title>Safari</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-  <link rel="stylesheet" href="css/animate.css">
-
-  <link rel="stylesheet" href="css/owl.carousel.min.css">
-  <link rel="stylesheet" href="css/owl.theme.default.min.css">
-  <link rel="stylesheet" href="css/magnific-popup.css">
-
-  <link rel="stylesheet" href="css/aos.css">
-
-  <link rel="stylesheet" href="css/ionicons.min.css">
-
-  <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-  <link rel="stylesheet" href="css/jquery.timepicker.css">
-
-
-  <link rel="stylesheet" href="css/flaticon.css">
-  <link rel="stylesheet" href="css/icomoon.css">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="">Safari<span>Travel Agency</span></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> Menu
-      </button>
-
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="{{route('packages')}}" class="nav-link">Destination</a></li>
-          <li class="nav-item active"><a href="{{route('blog')}}" class="nav-link">Blog</a></li>
-          <li class="nav-item"><a href="{{route('about')}}" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="{{route('contact')}}" class="nav-link">Contact</a></li>
-          <li class="nav-item cta"><a href="{{route('login')}}" class="nav-link">Login</a></li>
-
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- END nav -->
-
-  <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/destination-5.jpg');"
-    data-stellar-background-ratio="0.5">
+@section('page')
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/Blog_overlay.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
-        <div class="col-md-9 ftco-animate pb-5 text-center">
-          <h1 class="mb-3 bread">Travel Tips &amp; Blog</h1>
-          <p class="breadcrumbs"><span class="mr-2"><a href="">Home <i class="ion-ios-arrow-forward"></i></a></span>
-            <span>Blog <i class="ion-ios-arrow-forward"></i></span></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ftco-section">
-    <div class="container">
-      <div class="row justify-content-center pb-4">
-        <div class="col-md-12 heading-section text-center ftco-animate">
-          <h2 class="mb-4">Recent Blogs</h2>
-        </div>
-      </div>
-      <div class="row">
-        @foreach ($blogs as $blog)
-        <div class="col-md-4 ftco-animate">
-          <div class="project-wrap">
-            <a href="#" class="img" style="background-image: url(images/bali.jpeg);">
-              <p>
-                {{$blog->category->name}}
-              </p>
-            </a>
-            <div class="text p-4">
-              <h3><a href="">
-                  {{$blog->title}}
-                </a></h3>
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate pb-5 text-center">
+                <h1 class="mb-3 bread">Our Stories</h1>
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="{{ url('/') }}">Home <i class="ion-ios-arrow-forward"></i></a></span>
+                    <span>Blog <i class="ion-ios-arrow-forward"></i></span>
+                </p>
             </div>
-          </div>
         </div>
-        @endforeach
+    </div>
+</section>
 
-
-      </div>
-      {{ $blogs->links() }}
-  </section>
-
-  <footer class="ftco-footer bg-bottom" style="background-image: url(images/footer-bg.jpg);">
+<section class="ftco-section">
     <div class="container">
-      <div class="row mb-5">
-        <div class="col-md">
-          <div class="ftco-footer-widget mb-4">
-            <h2 class="ftco-heading-2">Safari</h2>
-            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
-              blind texts.</p>
-            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-              <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-            </ul>
-          </div>
-        </div>
-        {{-- <div class="col-md">
-          <div class="ftco-footer-widget mb-4 ml-md-5">
-            <h2 class="ftco-heading-2">Categories</h2>
-            @foreach ($categories as $category)
-            <div class="col-6">
-              <a href="#">
-                {{$category->name}}
-              </a>
+        <div class="row">
+            @foreach($blogs as $blog)
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="blog-entry h-100">
+                    <div class="blog-image">
+                        <a href="{{ route('blog.show', $blog->id) }}">
+                            <img src="{{ asset('storage/'.$blog->image) }}" alt="{{ $blog->title }}" class="img-fluid">
+                        </a>
+                        <div class="blog-date">
+                            <span class="day">{{ $blog->created_at->format('d') }}</span>
+                            <span class="month">{{ $blog->created_at->format('M') }}</span>
+                        </div>
+                    </div>
+                    <div class="blog-content p-4">
+                        <div class="blog-meta mb-3">
+                            <span><i class="far fa-folder"></i> {{ $blog->category->name }}</span>
+                            <span><i class="far fa-calendar"></i> {{ $blog->created_at->format('Y') }}</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="{{ route('blog.show', $blog->id) }}">{{ $blog->title }}</a>
+                        </h3>
+                        <p class="blog-excerpt">{{ Str::limit($blog->description, 120) }}</p>
+                        <a href="{{ route('blog.show', $blog->id) }}" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
             @endforeach
-          </div>
-        </div> --}}
-      </div>
-      {{-- <div class="col-md">
-        <div class="ftco-footer-widget mb-4">
-          <h2 class="ftco-heading-2">Tags</h2>
-          @foreach ($tags as $tag)
-          <div class="col-6">
-            <a href="#">
-              {{$tag->name}}
-            </a>
-          </div>
-          @endforeach
         </div>
-      </div> --}}
-      <div class="col-md">
-        <div class="ftco-footer-widget mb-4">
-          <h2 class="ftco-heading-2">Have any Questions?</h2>
-          <div class="block-23 mb-3">
-            <ul>
-              <li><span class="icon icon-map-marker"></span><span class="text">Ole Sangale Road, off
-                  Langata Road, in Madaraka Estate, Nairobi, Kenya.</span></li>
-              <li><a href="#"><span class="icon icon-phone"></span><span class="text">+254712345678</span></a></li>
-              <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a>
-              </li>
-            </ul>
-          </div>
+        
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="custom-pagination">
+                    {{ $blogs->links() }}
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 text-center">
+</section>
 
-        <p>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script>
-            document.write(new Date().getFullYear());
-          </script> All rights reserved | This template is made with <i class="icon-heart color-danger"
-            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        </p>
-      </div>
-    </div>
-    </div>
-  </footer>
+@endsection
 
+@section('css')
+<style>
+.blog-entry {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
+.blog-entry:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
 
-  <!-- loader -->
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-        stroke="#F96D00" /></svg></div>
+.blog-image {
+    position: relative;
+    padding-top: 65%;
+    overflow: hidden;
+}
 
+.blog-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false">
-  </script>
-  <script src="js/google-map.js"></script>
-  <script src="js/main.js"></script>
+.blog-entry:hover .blog-image img {
+    transform: scale(1.05);
+}
 
-</body>
+.blog-date {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f15d30;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(241, 93, 48, 0.2);
+}
 
-</html>
+.blog-date .day {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+}
+
+.blog-date .month {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.blog-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+}
+
+.blog-meta {
+    display: flex;
+    gap: 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.blog-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.blog-meta i {
+    color: #f15d30;
+}
+
+.blog-title {
+    font-size: 1.25rem;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.blog-title a {
+    color: #2d3748;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-title a:hover {
+    color: #f15d30;
+}
+
+.blog-excerpt {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f15d30;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin-top: auto;
+}
+
+.read-more:hover {
+    color: #e04d20;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.read-more i {
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.read-more:hover i {
+    transform: translateX(3px);
+}
+
+.custom-pagination {
+    margin-top: 3rem;
+}
+
+.custom-pagination .pagination {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.page-link {
+    border-radius: 8px;
+    border: none;
+    color: #6c757d;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.page-link:hover {
+    background: #f15d30;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background: #f15d30;
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    background: #f8f9fa;
+    color: #adb5bd;
+}
+</style>
+@endsection

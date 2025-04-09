@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Destinations\CreateDestinationsRequest;
 use App\Http\Requests\Destinations\UpdateDestinationsRequest;
 use PhpParser\Node\Stmt\Catch_;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class DestinationsController extends Controller
 {
@@ -24,7 +26,7 @@ class DestinationsController extends Controller
      */
     public function index()
     {
-        return view('destinations.index')->with('destinations', Destinations::all());
+        return view('destinations.index')->with('destinations', Destinations::with(['primaryImage', 'category'])->get());
     }
 
     /**
@@ -43,32 +45,39 @@ class DestinationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateDestinationsRequest $request)
+    public function store(Request $request)
     {
-        //upload image
-        $image = $request->image->store('destinations');
-        //create post
-        $destination = Destinations::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'content' => $request->content,
-            'image' => $image,
-            'published_at' => $request->published_at,
-            'category_id'=>$request->category
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'content' => 'required',
+            'location' => 'required',
+            'price' => 'required|numeric',
+            'days' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        if($request->tags){
-            $destination->tags()->attach($request->tags);
+        // Format the pricing as a string with currency
+        $validatedData['pricing'] = 'Kshs ' . number_format($validatedData['price']);
+        
+        // Create the destination
+        $destination = Destinations::create($validatedData);
+
+        if ($request->hasFile('images')) {
+            $isPrimary = true; // First image will be primary
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('destinations', 'public');
+                $destination->images()->create([
+                    'image' => $path,
+                    'is_primary' => $isPrimary
+                ]);
+                $isPrimary = false;
+            }
         }
 
-
-
-
-        //flash message 
-        session()->flash('success', 'Destination Created Successfully');
-
-        //redirect
-        return redirect(route('destinations.index'));
+        return redirect('/admin/destinations')
+            ->with('success', 'Destination created successfully.');
     }
 
     /**
@@ -79,53 +88,86 @@ class DestinationsController extends Controller
      */
     public function show($id)
     {
-        //
+        $destination = Destinations::with(['images', 'primaryImage', 'category'])
+            ->findOrFail($id);
+            
+        return view('destinations.show', [
+            'destination' => $destination
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Destinations  $destination
      * @return \Illuminate\Http\Response
      */
-    public function edit(Destinations $destinations)
+    public function edit(Destinations $destination)
     {
-        return view('destinations.create')->with('destinations', $destinations)->with('categories', Category::all())->with('tags', Tag::all());
+        return view('destinations.edit')
+            ->with('destinations', $destination)
+            ->with('categories', Category::all())
+            ->with('tags', Tag::all());
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Destinations  $destination
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDestinationsRequest $request, Destinations $destinations)
+    public function update(Request $request, $id)
     {
-        $data = $request->only(['title', 'description', 'published_at', 'content']);
-        //check if new image
-        if ($request->hasFile('Image')) {
+        $destination = Destinations::findOrFail($id);
 
-            //upload and delete
-            $image = $request->image->store('Destinations');
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'content' => 'nullable',
+            'location' => 'required',
+            'price' => 'required|numeric',
+            'days' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_images' => 'array',
+            'delete_images.*' => 'exists:destination_images,id',
+            'primary_image' => 'nullable|exists:destination_images,id'
+        ]);
 
+        $destination->update($validatedData);
 
-            $destinations->deleteImage();
-
-            $data['image'] = $image;
+        // Handle image deletions
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imageId) {
+                $image = $destination->images()->find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->image);
+                    $image->delete();
+                }
+            }
         }
-        if ($request->tags){
-            $destinations->tags()->sync($request->tags);
+
+        // Handle new images
+        if ($request->hasFile('images')) {
+            $hasExistingImages = $destination->images()->exists();
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('destinations', 'public');
+                $destination->images()->create([
+                    'image' => $path,
+                    'is_primary' => !$hasExistingImages && $destination->images()->count() === 0
+                ]);
+            }
         }
 
+        // Update primary image
+        if ($request->has('primary_image')) {
+            $destination->images()->update(['is_primary' => false]);
+            $destination->images()->where('id', $request->primary_image)->update(['is_primary' => true]);
+        }
 
-        //update attributes
-        $destinations->update($data);
-
-        //redirect user
-        session()->flash('success', 'Destination updated successfully');
-
-        return redirect(route('destinations.index'));
+        return redirect()->route('destinations.index')
+            ->with('success', 'Destination updated successfully.');
     }
 
     /**
@@ -173,5 +215,13 @@ class DestinationsController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function modal($id)
+    {
+        $destination = Destinations::with(['images', 'primaryImage', 'category'])
+            ->findOrFail($id);
+            
+        return view('destinations.modal', compact('destination'));
     }
 }

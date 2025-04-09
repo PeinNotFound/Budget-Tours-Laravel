@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'about',
+        'name', 'username', 'email', 'password', 'about', 'avatar', 'email_notifications', 'marketing_emails', 'is_admin',
     ];
 
     /**
@@ -35,10 +35,18 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'email_notifications' => 'boolean',
+        'marketing_emails' => 'boolean',
+        'is_admin' => 'boolean',
     ];
 
-    public function isAdmin()
+    /**
+     * Get the user's admin status.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
     {
-        return $this->role == 'admin';
+        return (bool) $this->attributes['is_admin'];
     }
 }

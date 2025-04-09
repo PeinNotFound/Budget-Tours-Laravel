@@ -10,23 +10,51 @@ class Destinations extends Model
 {
     use SoftDeletes;
 
-
-    protected $fillable =[
-        'title', 'description', 'content', 'image', 'published_at', 'category_id'
+    protected $fillable = [
+        'title',
+        'description',
+        'content',
+        'price',
+        'days',
+        'location',
+        'category_id',
+        'pricing'
     ];
+
+    protected $attributes = [
+        'image' => 'placeholder.jpg'
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($destination) {
+            if (empty($destination->content)) {
+                $destination->content = $destination->description;
+            }
+            if (empty($destination->pricing)) {
+                $destination->pricing = 'Kshs ' . number_format($destination->price);
+            }
+        });
+
+        static::updating(function ($destination) {
+            if ($destination->isDirty('price')) {
+                $destination->pricing = 'Kshs ' . number_format($destination->price);
+            }
+        });
+    }
 
     /**
      * delete image from storage
      * @return void 
      */
 
-
-
-
-
     public function deleteImage()
     {
-        Storage::delete($this->image);
+        if($this->image) {
+            Storage::delete($this->image);
+        }
     }
 
     public function category()
@@ -34,11 +62,20 @@ class Destinations extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany('App\DestinationImage', 'destination_id');
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne('App\DestinationImage', 'destination_id')->where('is_primary', true);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
-
 
     /**
      * 

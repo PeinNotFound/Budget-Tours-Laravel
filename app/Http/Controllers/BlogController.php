@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Blog;
 use App\Category;
-use App\Http\Requests\Blo\CreateBlogRequest;
+use App\Http\Requests\Blog\CreateBlogRequest;
 use App\Http\Requests\Blog\UpdateBlogRequest;
 
 class BlogController extends Controller
@@ -28,18 +28,18 @@ class BlogController extends Controller
     public function store(CreateBlogRequest $request)
     {
         //upload image
-        $image = $request->image->store('blogs');
+        $image = $request->image->store('blogs', 'public');
+        
         //create post
-        $destination = Blog::create([
+        $blog = Blog::create([
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
             'published_at' => $request->published_at,
-            'category_id'=>$request->category
+            'category_id' => $request->category
         ]);
 
-    
         //flash message 
         session()->flash('success', 'Blog Created Successfully');
 
@@ -60,7 +60,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return view('blog.create')->with('blogs', $blog)->with('categories', Category::all());
+        return view('blog.create')->with('blog', $blog)->with('categories', Category::all());
     }
 
     /**
@@ -72,20 +72,16 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        $data = $request->only(['title', 'description', 'published_at', 'content']);
+        $data = $request->only(['title', 'description', 'content', 'published_at']);
+        $data['category_id'] = $request->category;
+        
         //check if new image
-        if ($request->hasFile('Image')) {
-
+        if ($request->hasFile('image')) {
             //upload and delete
-            $image = $request->image->store('Blogs');
-
-
+            $image = $request->image->store('blogs', 'public');
             $blog->deleteImage();
-
             $data['image'] = $image;
         }
-        
-
 
         //update attributes
         $blog->update($data);

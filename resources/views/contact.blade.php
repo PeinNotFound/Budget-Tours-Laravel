@@ -2,9 +2,12 @@
 <html lang="en">
 
 <head>
-  <title>Safari</title>
+  <title>Contact Us - Marrakech Budget Tours</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ asset('images/mbt-fav.png') }}?v=2">
 
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
@@ -29,38 +32,18 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="">Safari<span>Travel Agency</span></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="oi oi-menu"></span> Menu
-      </button>
+  @include('partials.nav')
 
-      <div class="collapse navbar-collapse" id="ftco-nav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a href="" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="{{route('packages')}}" class="nav-link">Destination</a></li>
-          <li class="nav-item"><a href="{{route('blog')}}" class="nav-link">Blog</a></li>
-          <li class="nav-item"><a href="{{route('about')}}" class="nav-link">About</a></li>
-          <li class="nav-item active"><a href="{{route('contact')}}" class="nav-link">Contact</a></li>
-          <li class="nav-item cta"><a href="{{route('login')}}" class="nav-link">Login</a></li>
-
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- END nav -->
-
-  <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/destination-12.jpg');"
+  <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/Contact_overlay.jpg');"
     data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
       <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
         <div class="col-md-9 ftco-animate pb-5 text-center">
           <h1 class="mb-3 bread">Contact Us</h1>
-          <p class="breadcrumbs"><span class="mr-2"><a href="">Home <i class="ion-ios-arrow-forward"></i></a></span>
-            <span>Contact us <i class="ion-ios-arrow-forward"></i></span></p>
+          <p class="breadcrumbs"><span class="mr-2"><a href="{{ url('/') }}">Home <i
+                  class="ion-ios-arrow-forward"></i></a></span> <span>Contact us <i
+                class="ion-ios-arrow-forward"></i></span></p>
         </div>
       </div>
     </div>
@@ -177,7 +160,9 @@
         </div>
 
         <div class="col-md-6 d-flex">
-          <div id="map" class="bg-white"></div>
+          <div id="map" class="bg-white">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3397.042407617669!2d-7.990180224665081!3d31.632689241584693!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafefe5067229e1%3A0x85eb43c9ecf4f467!2sMarrakech%20Budget%20Tours!5e0!3m2!1sen!2sma!4v1744213473947!5m2!1sen!2sma" width="600" height="450" style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -273,8 +258,6 @@
   <script src="js/jquery.animateNumber.min.js"></script>
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/scrollax.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false">
-  </script>
   <script src="js/google-map.js"></script>
   <script src="js/main.js"></script>
 

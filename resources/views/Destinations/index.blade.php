@@ -24,8 +24,13 @@
                 @foreach ($destinations as $destinations)
                 <tr>
                     <td>
-                        <img src="{{asset('/storage/' . $destinations->image)}}" width="120px" height="60px"
-                            class="img-thumbnail" alt="responsive image">
+                        @if($destinations->primaryImage)
+                            <img src="{{ asset('storage/' . $destinations->primaryImage->image) }}" width="120px" height="60px"
+                                class="img-thumbnail" alt="responsive image">
+                        @else
+                            <img src="{{ asset('storage/placeholder.jpg') }}" width="120px" height="60px"
+                                class="img-thumbnail" alt="responsive image">
+                        @endif
                     </td>
                     <td>
                         {{ $destinations->title }}
@@ -34,6 +39,9 @@
                         <a href="{{route('categories.edit', $destinations->category->id)}}">
                             {{$destinations->category->name}}
                         </a>
+                    </td>
+                    <td>
+                        {{ $destinations->pricing }}
                     </td>
                     @if ($destinations->trashed())
                     <td>

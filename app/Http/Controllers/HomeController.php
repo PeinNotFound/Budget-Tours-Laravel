@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Destinations;
+use App\Category;
+use App\Blog;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -13,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'admin']);
     }
 
     /**
@@ -23,6 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [
+            'destinationsCount' => Destinations::count(),
+            'categoriesCount' => Category::count(),
+            'postsCount' => Blog::count(),
+            'usersCount' => User::count(),
+            'recentDestinations' => Destinations::latest()->take(5)->get()
+        ]);
     }
 }

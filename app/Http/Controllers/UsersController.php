@@ -2,45 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Users\UpdateProfileRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'admin']);
+    }
+
     public function index()
     {
-        return view('users.index')->with('users', User::all());
+        return view('Users.index')->with('users', User::all());
     }
 
-    public function edit()
+    public function edit(User $user)
     {
-        return view('users.edit')->with('user', auth()->user());
+        return view('Users.edit')->with('user', $user);
     }
 
-    public function update(UpdateProfileRequest $request)
+    public function update(Request $request, User $user)
     {
-        $user=auth()->user();
-
-        $user->update([
-            'name'=>$request->name,
-            'about'=>$request->about
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'avatar' => 'nullable|image|max:2048'
         ]);
 
-        session()->flash('success', 'User profile updated successfully');
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $avatar = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $avatar;
+        }
 
-        return redirect()->back();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->save();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User updated successfully');
     }
 
     public function makeAdmin(User $user)
     {
-        $user->role='admin';
-        
+        $user->is_admin = !$user->is_admin;
         $user->save();
 
-        session()->flash('success', 'user made admin successfully');
-
-        return redirect(route('users.index'));
-
+        return redirect(route('users.index'))->with('success', 
+            $user->is_admin ? 'User has been made admin' : 'Admin privileges have been removed');
     }
 }
