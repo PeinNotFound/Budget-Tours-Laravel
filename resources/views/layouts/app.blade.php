@@ -113,17 +113,38 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s ease;
+            padding-top: 76px; /* Same as navbar height */
         }
 
         .navbar {
             background: var(--bg-secondary) !important;
             box-shadow: 0 2px 4px var(--shadow-color);
             padding: 0.75rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1050;
         }
 
-        .navbar .container-fluid {
-            padding-right: 1rem !important;
-            padding-left: 1rem !important;
+        .main-content {
+            margin-top: 76px; /* Adjust this value based on your navbar height */
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ensure dropdowns appear above other content */
+        .navbar .dropdown-menu {
+            z-index: 1051;
+        }
+
+        .navbar-nav .dropdown-menu {
+            margin-top: 0.5rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 0.5rem;
+            display: none;
+            position: absolute;
         }
 
         .navbar-brand {
@@ -174,6 +195,27 @@
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             font-weight: 500;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Add padding to create hover space between button and menu */
+        .dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
         }
 
         #navbarDropdown:hover {
@@ -244,7 +286,8 @@
                 padding-left: 1rem !important;
             }
             
-            .dropdown-menu {
+            .navbar-nav .dropdown-menu {
+                margin-top: 0;
                 position: absolute !important;
                 right: 0 !important;
                 left: auto !important;

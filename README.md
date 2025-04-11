@@ -114,56 +114,15 @@ marrakech-budget-tours/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
 ## Contact
 - **Name:** Ahmed Hmimida
-- **Email:** [Your Email]
-- **Website:** [Your Website]
+- **Email:** ahmed0hmimida2gmail.com
 
 ## Acknowledgments
 - Laravel Framework
 - Bootstrap
 - jQuery
 - Font Awesome
-- All contributors who have helped shape this project
-
-### Screenshots
-
-#### Homepage
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/6.png" width="auto" />
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/7.png" width="auto" /> 
-</p>
-
-#### Destination Info and Cart Page
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/1.png" width="auto" />
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/2.png" width="auto" /> 
-</p>
-
-#### Place Order
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/master/screenshots/3.png" width="auto" />
-</p>
-
-#### Checkout
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/4.png" width="auto" />
-</p>
-
-#### Stripe Backend
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/5.png" width="auto" />
-</p>
-
-#### Blog
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/8.png" width="auto" />
-</p>
-
-#### Backend
-<p float="left">
-  <img src="https://github.com/muchaisam/Tours-Travel/blob/main/screenshots/b.png" width="auto" />
-</p>
+- All contributors who have helped shape this project 

@@ -125,7 +125,7 @@
 							<div class="icon"><span class="flaticon-route"></span></div>
 							<div class="media-body">
 								<h3 class="heading mb-3">Travel Arrangements</h3>
-								<p>Book last minute, free cancellation and payment options to satisfy any plans or budget </p>
+								<p>Book last minute, Via whatsapp for easier booking and arrangement system </p>
 							</div>
 						</div>
 					</div>
@@ -170,7 +170,7 @@
 					<div class="col-md-4 justify-content-center counter-wrap ftco-animate">
 						<div class="block-18 text-center mb-4">
 							<div class="text">
-								<strong class="number" data-number="300">0</strong>
+								<strong class="number" data-number="">20</strong>
 								<span>Successful Tours</span>
 							</div>
 						</div>
@@ -178,7 +178,7 @@
 					<div class="col-md-4 justify-content-center counter-wrap ftco-animate">
 						<div class="block-18 text-center mb-4">
 							<div class="text">
-								<strong class="number" data-number="24000">0</strong>
+								<strong class="number" data-number="65">0</strong>
 								<span>Happy Tourist</span>
 							</div>
 						</div>
@@ -186,7 +186,7 @@
 					<div class="col-md-4 justify-content-center counter-wrap ftco-animate">
 						<div class="block-18 text-center mb-4">
 							<div class="text">
-								<strong class="number" data-number="200">0</strong>
+								<strong class="number" data-number="20">0</strong>
 								<span>Place Explored</span>
 							</div>
 						</div>

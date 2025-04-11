@@ -79,12 +79,11 @@
 
 @section('scripts')
 <script>
-   function handleDelete(id){
-      var form = document.getElementById('deleteCategoryForm')
-      form.action= '/categories/' +id
-      $('#deleteModal').modal('show')
+   function handleDelete(id) {
+      var form = document.getElementById('deleteCategoryForm');
+      form.action = "{{ route('categories.destroy', '') }}/" + id;
+      $('#deleteModal').modal('show');
    }
-
 </script>
 
 @endsection

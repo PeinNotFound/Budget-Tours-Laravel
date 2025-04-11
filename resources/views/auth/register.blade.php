@@ -7,96 +7,98 @@
     </video>
 </div>
 
-<div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+<div id="particles-js"></div>
 
-<div class="container" style="margin-top: 120px; margin-bottom: 60px; position: relative; z-index: 2;">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 15px;">
-                <div class="card-header text-white text-center py-4" style="background: #FF4500; border-radius: 15px 15px 0 0;">
-                    <h3 class="mb-0">{{ __('Register') }}</h3>
-                </div>
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 15px;">
+                    <div class="card-header text-white text-center py-4" style="background: #FF4500; border-radius: 15px 15px 0 0;">
+                        <h3 class="mb-0">{{ __('Register') }}</h3>
+                    </div>
 
-                <div class="card-body p-5">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+                    <div class="card-body p-5">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
 
-                        <div class="form-group">
-                            <label for="name" class="font-weight-bold">{{ __('Name') }}</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
-                                        <i class="ion-ios-person"></i>
-                                    </span>
+                            <div class="form-group">
+                                <label for="name" class="font-weight-bold">{{ __('Name') }}</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
+                                            <i class="ion-ios-person"></i>
+                                        </span>
+                                    </div>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Enter your name" style="border-left: none;">
                                 </div>
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Enter your name" style="border-left: none;">
+                                @error('name')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
-                            @error('name')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
 
-                        <div class="form-group">
-                            <label for="email" class="font-weight-bold">{{ __('Email Address') }}</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
-                                        <i class="ion-ios-mail"></i>
-                                    </span>
+                            <div class="form-group">
+                                <label for="email" class="font-weight-bold">{{ __('Email Address') }}</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
+                                            <i class="ion-ios-mail"></i>
+                                        </span>
+                                    </div>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email" style="border-left: none;">
                                 </div>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email" style="border-left: none;">
+                                @error('email')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
-                            @error('email')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
 
-                        <div class="form-group">
-                            <label for="password" class="font-weight-bold">{{ __('Password') }}</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
-                                        <i class="ion-ios-lock"></i>
-                                    </span>
+                            <div class="form-group">
+                                <label for="password" class="font-weight-bold">{{ __('Password') }}</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
+                                            <i class="ion-ios-lock"></i>
+                                        </span>
+                                    </div>
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter your password" style="border-left: none;">
                                 </div>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Enter your password" style="border-left: none;">
+                                @error('password')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
-                            @error('password')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="font-weight-bold">{{ __('Confirm Password') }}</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
-                                        <i class="ion-ios-lock"></i>
-                                    </span>
+                            <div class="form-group">
+                                <label for="password-confirm" class="font-weight-bold">{{ __('Confirm Password') }}</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;">
+                                            <i class="ion-ios-lock"></i>
+                                        </span>
+                                    </div>
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm your password" style="border-left: none;">
                                 </div>
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm your password" style="border-left: none;">
                             </div>
-                        </div>
 
-                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <a href="{{ route('login') }}" class="btn btn-outline" style="padding: 0.5rem 1.5rem; color: #FF4500; border-color: #FF4500;">
-                                {{ __('Back to Login') }}
-                            </a>
-                            <button type="submit" class="btn" style="padding: 0.5rem 1.5rem; background: #FF4500; color: white;">
-                                {{ __('Register') }}
-                            </button>
+                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a href="{{ route('login') }}" class="btn btn-outline" style="padding: 0.5rem 1.5rem; color: #FF4500; border-color: #FF4500;">
+                                    {{ __('Back to Login') }}
+                                </a>
+                                <button type="submit" class="btn" style="padding: 0.5rem 1.5rem; background: #FF4500; color: white;">
+                                    {{ __('Register') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3" style="background: transparent; border-top: none;">
+                        <div class="small">
+                            <p class="mb-0">Already have an account? <a href="{{ route('login') }}" style="color: #FF4500;">Login here!</a></p>
                         </div>
-                    </form>
-                </div>
-                <div class="card-footer text-center py-3" style="background: transparent; border-top: none;">
-                    <div class="small">
-                        <p class="mb-0">Already have an account? <a href="{{ route('login') }}" style="color: #FF4500;">Login here!</a></p>
                     </div>
                 </div>
             </div>
@@ -130,17 +132,36 @@
 
     #particles-js {
         background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .auth-container {
+        position: relative;
+        z-index: 2;
+        padding-top: 100px;
+        padding-bottom: 40px;
+        min-height: calc(100vh - 76px);
+        display: flex;
+        align-items: flex-start;
     }
 
     body {
         min-height: 100vh;
         background: transparent;
     }
+
     .card {
         border-radius: 15px;
         overflow: hidden;
         transition: transform 0.3s ease;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 3;
     }
     .card:hover {
         transform: translateY(-5px);
